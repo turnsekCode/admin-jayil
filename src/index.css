@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300&family=MuseoModerno:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,800;1,200&family=Outfit:wght@100..900&family=Poppins:wght@200;400&family=Prata&family=Raleway:wght@100;200;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    font-family: Outfit, sans-serif;
+}
+
+select,input,textarea{
+    border: 1px solid #c2c2c2;
+    outline-color: #C15470;
+    border-radius: 4px;
+}
+.active{
+    background-color: #f1d4db;
+    border-color: #C15470;
+}
