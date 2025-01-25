@@ -4,6 +4,7 @@ import axios from 'axios'
 import { backendUrl } from '../App'
 import { toast } from 'react-toastify'
 import { useParams, useNavigate } from 'react-router-dom'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 const Update = ({ token }) => {
     const { id } = useParams() // Obtener el id del producto desde la URL
@@ -21,6 +22,7 @@ const Update = ({ token }) => {
     const [subCategory, setSubCategory] = useState('')
     const [price, setPrice] = useState('')
     const [bestSeller, setBestSeller] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
@@ -74,7 +76,7 @@ const Update = ({ token }) => {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
-
+        setLoading(true); 
         try {
             const formData = new FormData()
             formData.append('name', name)
@@ -91,17 +93,20 @@ const Update = ({ token }) => {
 
             // Realizar la solicitud para actualizar el producto
             const res = await axios.post(`${backendUrl}/api/product/update/${id}`, formData, { headers: { token } })
-
+            setLoading(true)
             if (res.data.success) {
                 toast.success(res.data.message)
-                navigate('/list') // Redirigir a la lista de productos después de la actualización
+                navigate('/list')
             } else {
                 toast.error(res.data.message)
             }
         } catch (error) {
             console.log(error)
             toast.error(error.message)
-        }
+
+        } finally {
+            setLoading(false); // Ocultar el estado de carga después de la solicitud
+          }
     }
 
     return (
@@ -175,7 +180,7 @@ const Update = ({ token }) => {
             </div>
 
             <div className='w-full'>
-                <p className='mb-2'>Product description 2</p>
+                <p className='mb-2'>Product description</p>
                 <textarea onChange={(e) => setDescription2(e.target.value)} value={description2} className='w-full max-w-[500px] px-3 py-2' type="text" placeholder='Write content here' required />
             </div>
 
@@ -209,7 +214,7 @@ const Update = ({ token }) => {
                 <input onChange={(e) => setBestSeller(prev => !prev)} checked={bestSeller} type="checkbox" id='bestseller' />
                 <label className='cursor-pointer' htmlFor="bestseller">Add to bestseller</label>
             </div>
-            <button type='submit' className='w-28 py-3 mt-4 bg-[#C15470] text-white'>UPDATE</button>
+            <button type='submit' className='w-28 py-3 mt-4 bg-[#C15470] text-white'>{loading ? <ClipLoader color="#ffffff" /> : 'UPDATE'}</button>
         </form>
     )
 }

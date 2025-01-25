@@ -3,6 +3,7 @@ import { assets } from '../assets/assets';
 import axios from 'axios';
 import { backendUrl } from '../App';
 import { toast } from 'react-toastify';
+import ClipLoader from 'react-spinners/ClipLoader'
 
 const Add = ({ token }) => {
   const [image1, setImage1] = useState(false);
@@ -17,6 +18,7 @@ const Add = ({ token }) => {
   const [subCategory, setSubCategory] = useState('');
   const [price, setPrice] = useState('');
   const [bestSeller, setBestSeller] = useState(false);
+   const [loading, setLoading] = useState(false);
 
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
@@ -39,6 +41,7 @@ const Add = ({ token }) => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    setLoading(true); 
     try {
       const formData = new FormData();
       formData.append('name', name);
@@ -73,6 +76,9 @@ const Add = ({ token }) => {
     } catch (error) {
       console.error(error);
       toast.error(error.message);
+    }
+    finally {
+      setLoading(false); // Ocultar el estado de carga después de la solicitud
     }
   };
 
