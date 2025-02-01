@@ -12,7 +12,9 @@ const List = ({ token }) => {
     try {
       const res = await axios.get(`${backendUrl}/api/product/list`);
       if (res.data.success) {
-        setList(res.data.products);
+        // Ordenar por _id de mayor a menor (más reciente primero)
+        const sortedProducts = res.data.products.sort((a, b) => b._id.localeCompare(a._id));
+        setList(sortedProducts);
       } else {
         toast.error(res.data.message);
       }

@@ -153,7 +153,7 @@ const Add = ({ token }) => {
         <label className="cursor-pointer" htmlFor="bestseller">Add to Bestseller</label>
       </div>
 
-      <button type="submit" className="w-28 py-3 mt-4 bg-[#C15470] text-white">ADD</button>
+      <button type="submit" className="w-28 py-3 mt-4 bg-[#C15470] text-white">{loading ? <ClipLoader color="#ffffff" /> : 'ADD'}</button>
     </form>
   );
 };

@@ -10,16 +10,31 @@ const Orders = ({ token }) => {
 
   const fetchAllOrders = async () => {
     if (!token) return;
-
     try {
       const response = await axios.post(`${backendUrl}/api/order/list`, {}, { headers: { token } });
       if (response.data.success) {
-        setOrders(response.data.orders);
+        // Ordenar las órdenes por `_id` de mayor a menor (más reciente primero)
+        const sortedOrders = response.data.orders.sort((a, b) => b._id.localeCompare(a._id));
+        setOrders(sortedOrders);
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
       toast.error(error.message);
+    }
+  };
+
+  const statusHandler = async (event, orderId) => {
+    try {
+      const response = await axios.post(`${backendUrl}/api/order/status`, { orderId, status: event.target.value }, { headers: { token } });
+      if (response.data.success) {
+        toast.success('Status actualizado exitosamente.');
+        fetchAllOrders();
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error('Error al actualizar el status')
     }
   };
 
@@ -80,18 +95,21 @@ const Orders = ({ token }) => {
             </div>
             <div>
               <p className="text-sm sm:text-[15px]">Items: {order.items.length}</p>
-              <p className="mt-3">Method: {order.paymentMethod}</p>
-              <p>Payment: {order.payment ? 'Done' : 'Pending'}</p>
+              <p className="mt-3">Method: <span className='font-bold'>{order.paymentMethod}</span></p>
+              <p >
+                Payment: <span className={order.payment ? 'text-green-500 font-semibold' : 'text-orange-500 font-semibold'}>{order.payment ? 'Done' : 'Pending'}</span>
+              </p>
               <p>Date: {new Date(order.date).toLocaleDateString()}</p>
             </div>
-            <p className="text-sm sm:text-[15px]">
+            <p className="text-sm sm:text-[15px] font-bold">
               {currency}
               {order.amount.toFixed(2)}
             </p>
             <div>
               <select
                 className="p-2 font-semibold"
-                onChange={(e) => handleStatusChange(order._id, e.target.value, order.address.email, order.orderNumber)}
+                onChange={(event) => statusHandler(event, order._id)}
+                value={order.status}
               >
                 <option value="Order Placed">Order Placed</option>
                 <option value="Packing">Packing</option>
