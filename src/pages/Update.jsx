@@ -23,6 +23,7 @@ const Update = ({ token }) => {
     const [price, setPrice] = useState('')
     const [bestSeller, setBestSeller] = useState(false)
     const [loading, setLoading] = useState(false);
+    const [slug, setSlug] = useState('');
 
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
@@ -55,6 +56,7 @@ const Update = ({ token }) => {
                     setSubCategory(product.subCategory);
                     setPrice(product.price);
                     setBestSeller(product.bestSeller);
+                    setSlug(product.slug);
 
                     // Asignar imágenes existentes al estado
                     setImage1(product.image[0] || false);
@@ -76,7 +78,7 @@ const Update = ({ token }) => {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
-        setLoading(true); 
+        setLoading(true);
         try {
             const formData = new FormData()
             formData.append('name', name)
@@ -86,6 +88,7 @@ const Update = ({ token }) => {
             formData.append('subCategory', subCategory)
             formData.append('price', price)
             formData.append('bestSeller', bestSeller)
+            formData.append('slug', slug)
             image1 && formData.append('image1', image1)
             image2 && formData.append('image2', image2)
             image3 && formData.append('image3', image3)
@@ -106,7 +109,7 @@ const Update = ({ token }) => {
 
         } finally {
             setLoading(false); // Ocultar el estado de carga después de la solicitud
-          }
+        }
     }
 
     return (
@@ -181,7 +184,12 @@ const Update = ({ token }) => {
 
             <div className='w-full'>
                 <p className='mb-2'>Product description</p>
-                <textarea onChange={(e) => setDescription2(e.target.value)} value={description2} className='w-full max-w-[500px] px-3 py-2' type="text" placeholder='Write content here' required />
+                <textarea onChange={(e) => setDescription2(e.target.value)} value={description2} className='w-full max-w-[500px] px-3 py-2' type="text" placeholder='Write content here' />
+            </div>
+
+            <div className="w-full">
+                <p className="mb-2">Slug (URL)</p>
+                <input onChange={(e) => setSlug(e.target.value)} value={slug} className="w-full max-w-[500px] px-3 py-2" placeholder="Write url here" required />
             </div>
 
             <div className="flex flex-col sm:flex-row gap-2 w-full sm:gap-8">

@@ -16,9 +16,10 @@ const Add = ({ token }) => {
   const [description2, setDescription2] = useState('');
   const [category, setCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
+  const [slug, setSlug] = useState('');
   const [price, setPrice] = useState('');
   const [bestSeller, setBestSeller] = useState(false);
-   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
@@ -51,6 +52,7 @@ const Add = ({ token }) => {
       formData.append('subCategory', subCategory);
       formData.append('price', price);
       formData.append('bestSeller', bestSeller);
+      formData.append('slug', slug);
       image1 && formData.append('image1', image1);
       image2 && formData.append('image2', image2);
       image3 && formData.append('image3', image3);
@@ -70,6 +72,7 @@ const Add = ({ token }) => {
         setPrice('');
         setCategory('');
         setSubCategory('');
+        setSlug('');
       } else {
         toast.error(res.data.message);
       }
@@ -118,7 +121,12 @@ const Add = ({ token }) => {
 
       <div className="w-full">
         <p className="mb-2">Product Description 2</p>
-        <textarea onChange={(e) => setDescription2(e.target.value)} value={description2} className="w-full max-w-[500px] px-3 py-2" placeholder="Write content here" required />
+        <textarea onChange={(e) => setDescription2(e.target.value)} value={description2} className="w-full max-w-[500px] px-3 py-2" placeholder="Write content here" />
+      </div>
+
+      <div className="w-full">
+        <p className="mb-2">Slug (URL)</p>
+        <input onChange={(e) => setSlug(e.target.value)} value={slug} className="w-full max-w-[500px] px-3 py-2" placeholder="Write url here" required />
       </div>
 
       <div className="flex flex-col sm:flex-row gap-2 w-full sm:gap-8">
