@@ -106,12 +106,12 @@ const Orders = ({ token }) => {
                 Payment:{" "}
                 <span
                   className={
-                    (order.payment || ['pagado', 'Enviado', 'Empacando'].includes(order.status))
+                    (order.payment || ['Pagado', 'Enviado', 'Empacando'].includes(order.status))
                       ? 'text-green-500 font-semibold'
                       : 'text-orange-500 font-semibold'
                   }
                 >
-                  {(order.payment || ['pagado', 'Enviado', 'Empacando'].includes(order.status)) ? 'Done' : 'Pending'}
+                  {(order.payment || ['Pagado', 'Enviado', 'Empacando'].includes(order.status)) ? 'Done' : 'Pending'}
                 </span>
               </p>
               <p>Date: {new Date(order.date).toLocaleDateString()}</p>
