@@ -27,7 +27,7 @@ const Orders = ({ token }) => {
   useEffect(() => {
     const total = orders.reduce((acc, order) => acc + order.items.length, 0);
     setCantidadProductos(total);  // Actualiza el estado con el total
-  }, [orders]);  
+  }, [orders]);
 
 
   const statusHandler = async (event, orderId) => {
@@ -102,8 +102,17 @@ const Orders = ({ token }) => {
             <div>
               <p className="text-sm sm:text-[15px]">Items: {order.items.length}</p>
               <p className="mt-3">Method: <span className='font-bold'>{order.paymentMethod}</span></p>
-              <p >
-                Payment: <span className={order.payment ? 'text-green-500 font-semibold' : 'text-orange-500 font-semibold'}>{order.payment ? 'Done' : 'Pending'}</span>
+              <p>
+                Payment:{" "}
+                <span
+                  className={
+                    (order.payment || ['pagado', 'Enviado', 'Empacando'].includes(order.status))
+                      ? 'text-green-500 font-semibold'
+                      : 'text-orange-500 font-semibold'
+                  }
+                >
+                  {(order.payment || ['pagado', 'Enviado', 'Empacando'].includes(order.status)) ? 'Done' : 'Pending'}
+                </span>
               </p>
               <p>Date: {new Date(order.date).toLocaleDateString()}</p>
             </div>
@@ -114,14 +123,13 @@ const Orders = ({ token }) => {
             <div>
               <select
                 className="p-2 font-semibold"
-                onChange={(event) => statusHandler(event, order._id)}
+                onChange={(event) => { statusHandler(event, order._id), handleStatusChange(order._id, event.target.value, order.address.email, order.orderNumber) }}
                 value={order.status}
               >
-                <option value="Order Placed">Order Placed</option>
-                <option value="Packing">Packing</option>
-                <option value="Shipped">Shipped</option>
-                <option value="Out for delivery">Out for delivery</option>
-                <option value="Delivered">Delivered</option>
+                <option value="Pedido realizado">Pedido realizado</option>
+                <option value="Pagado">Pagado</option>
+                <option value="Empacando">Empacando</option>
+                <option value="Enviado">Enviado</option>
               </select>
             </div>
           </div>
