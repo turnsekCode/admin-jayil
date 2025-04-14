@@ -14,6 +14,9 @@ const Add = ({ token }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [description2, setDescription2] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
+  const [metaTitle, setMetaTitle] = useState('');
+  const [quantity, setQuantity] = useState(1);
   const [category, setCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
   const [slug, setSlug] = useState('');
@@ -53,6 +56,9 @@ const Add = ({ token }) => {
       formData.append('price', price);
       formData.append('bestSeller', bestSeller);
       formData.append('slug', slug);
+      formData.append('metaDescription', metaDescription);
+      formData.append('metaTitle', metaTitle);
+      formData.append('quantity', quantity);
       image1 && formData.append('image1', image1);
       image2 && formData.append('image2', image2);
       image3 && formData.append('image3', image3);
@@ -73,6 +79,10 @@ const Add = ({ token }) => {
         setCategory('');
         setSubCategory('');
         setSlug('');
+        setMetaDescription('');
+        setMetaTitle('');
+        setQuantity(1);
+        setBestSeller(false);
       } else {
         toast.error(res.data.message);
       }
@@ -129,6 +139,18 @@ const Add = ({ token }) => {
         <input onChange={(e) => setSlug(e.target.value)} value={slug} className="w-full max-w-[500px] px-3 py-2" placeholder="Write url here" required />
       </div>
 
+      <div className="w-full">
+        <p className="mb-2">Meta titulo</p>
+        <input onChange={(e) => setMetaTitle(e.target.value)} value={metaTitle} className="w-full max-w-[500px] px-3 py-2" placeholder="Write url here" />
+      </div>
+
+      <div className="w-full">
+        <p className="mb-2">Meta descripción</p>
+        <input onChange={(e) => setMetaDescription(e.target.value)} value={metaDescription} className="w-full max-w-[500px] px-3 py-2" placeholder="Write url here" />
+      </div>
+
+
+
       <div className="flex flex-col sm:flex-row gap-2 w-full sm:gap-8">
         <div>
           <p className="mb-2">Product Category</p>
@@ -152,7 +174,11 @@ const Add = ({ token }) => {
 
         <div>
           <p className="mb-2">Product Price</p>
-          <input onChange={(e) => setPrice(e.target.value)} value={price} className="w-full px-3 py-2 sm:w-[120px]" type="number" placeholder="25" required />
+          <input onChange={(e) => setPrice(e.target.value)} value={price} className="w-full px-3 py-2 sm:w-[120px]" type="number" placeholder="Cantidad" required />
+        </div>
+        <div>
+          <p className="mb-2">Product quantity</p>
+          <input onChange={(e) => setQuantity(e.target.value)} value={quantity} className="w-full px-3 py-2 sm:w-[120px]" type="number" placeholder="Cantidad" required />
         </div>
       </div>
 

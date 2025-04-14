@@ -24,6 +24,9 @@ const Update = ({ token }) => {
     const [bestSeller, setBestSeller] = useState(false)
     const [loading, setLoading] = useState(false);
     const [slug, setSlug] = useState('');
+    const [metaDescription, setMetaDescription] = useState('')
+    const [metaTitle, setMetaTitle] = useState('')
+    const [quantity, setQuantity] = useState(1)
 
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
@@ -57,6 +60,9 @@ const Update = ({ token }) => {
                     setPrice(product.price);
                     setBestSeller(product.bestSeller);
                     setSlug(product.slug);
+                    setMetaDescription(product.metaDescription);
+                    setMetaTitle(product.metaTitle);
+                    setQuantity(product.quantity);
 
                     // Asignar imágenes existentes al estado
                     setImage1(product.image[0] || false);
@@ -89,6 +95,9 @@ const Update = ({ token }) => {
             formData.append('price', price)
             formData.append('bestSeller', bestSeller)
             formData.append('slug', slug)
+            formData.append('metaDescription', metaDescription)
+            formData.append('metaTitle', metaTitle)
+            formData.append('quantity', quantity)
             image1 && formData.append('image1', image1)
             image2 && formData.append('image2', image2)
             image3 && formData.append('image3', image3)
@@ -192,6 +201,16 @@ const Update = ({ token }) => {
                 <input onChange={(e) => setSlug(e.target.value)} value={slug} className="w-full max-w-[500px] px-3 py-2" placeholder="Write url here" required />
             </div>
 
+            <div className="w-full">
+                <p className="mb-2">Meta descripcíon</p>
+                <input onChange={(e) => setMetaDescription(e.target.value)} value={metaDescription} className="w-full max-w-[500px] px-3 py-2" placeholder="Write url here" />
+            </div>
+
+            <div className="w-full">
+                <p className="mb-2">Meta titulo</p>
+                <input onChange={(e) => setMetaTitle(e.target.value)} value={metaTitle} className="w-full max-w-[500px] px-3 py-2" placeholder="Write url here" />
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-2 w-full sm:gap-8">
                 <div>
                     <p className="mb-2">Product Category</p>
@@ -215,7 +234,12 @@ const Update = ({ token }) => {
 
                 <div>
                     <p className='mb-2'>Product price</p>
-                    <input onChange={(e) => setPrice(e.target.value)} value={price} className='w-full px-3 py-2 sm:w-[120px]' type="number" placeholder='25' required />
+                    <input onChange={(e) => setPrice(e.target.value)} value={price} className='w-full px-3 py-2 sm:w-[120px]' type="number" placeholder='Cantidad' required />
+                </div>
+
+                <div>
+                    <p className='mb-2'>Product quantity</p>
+                    <input onChange={(e) => setQuantity(e.target.value)} value={quantity} className='w-full px-3 py-2 sm:w-[120px]' type="number" placeholder='Cantidad' required />
                 </div>
             </div>
             <div className='flex gap-2 mt-2'>
