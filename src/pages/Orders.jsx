@@ -7,8 +7,6 @@ import { assets } from '../assets/assets';
 const Orders = ({ token }) => {
   const [orders, setOrders] = useState([]);
   const [visibleOrders, setVisibleOrders] = useState(5); // Inicialmente mostrar 5 pedidos
-  const [cantidadProductos, setCantidadProductos] = useState(0);
-
   const fetchAllOrders = async () => {
     if (!token) return;
     try {
@@ -24,10 +22,6 @@ const Orders = ({ token }) => {
       toast.error(error.message);
     }
   };
-  useEffect(() => {
-    const total = orders.reduce((acc, order) => acc + order.items.length, 0);
-    setCantidadProductos(total);  // Actualiza el estado con el total
-  }, [orders]);
 
 
   const statusHandler = async (event, orderId) => {
@@ -69,7 +63,7 @@ const Orders = ({ token }) => {
 
   return (
     <div>
-      <h3>Orders page</h3><span>Total de productos: {cantidadProductos}</span>
+      <h3>Orders page</h3><span>Total de productos: {orders.length}</span>
       <div>
         {orders?.slice(0, visibleOrders).map((order, index) => (
           <div
