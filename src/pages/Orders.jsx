@@ -7,6 +7,7 @@ import { assets } from '../assets/assets';
 const Orders = ({ token }) => {
   const [orders, setOrders] = useState([]);
   const [visibleOrders, setVisibleOrders] = useState(5); // Inicialmente mostrar 5 pedidos
+  console.log(orders)
   const fetchAllOrders = async () => {
     if (!token) return;
     try {
